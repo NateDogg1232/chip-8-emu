@@ -79,7 +79,23 @@ function tick() {
 		ip = 0 & 0xFF;
 	} else if (o & 0x3000 == 0x3000) {
 		//SE 0x3xkk		SE Vx, byte
-	}
+		if (regs[o & 0xF00 >> 16] == (o & 0xFF)) {
+			ip+=2;
+		}
+	} else if (o & 0x4000 == 0x4000) {
+		//SNE 0x4xkk		SNE Vx, byte
+	   if (regs[o & 0xF00 >> 16] != (o & 0xFF)) {
+		   ip+=2;
+	   }
+   } else if (o & 0x5000 == 0x5000) {
+	   //SE 0x5xy0			SE Vx, Vy
+	   if (regs[o & 0xF00 >> 16] == regs[o & 0xF0 >> 8]) {
+		   ip+=2;
+	   }
+   } else if (o & 0x6000 == 0x6000) {
+	   //LD 0x6xkk			LD Vx, byte
+	   regs[o & 0xF00 >> 16] = o & 0xFF;
+   }
 }
 
 function push(value) {
