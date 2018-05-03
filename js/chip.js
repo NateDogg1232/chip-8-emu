@@ -1,6 +1,6 @@
 //The Chip-8 emulator library.
 
-//Requires the base-64 
+//Requires the base-64
 
 var draw;
 var errorhandler;
@@ -17,19 +17,27 @@ var screenbuffer;
 //where x and y are integer values and pixelset is a boolean. True is white and false is black.
 
 //TODO:  Figure out how to do the error handler
-function init(drawfunct, errorhand) {
+function chipInit(drawfunct, errorhand) {
 	draw = drawfunct;
 	errorhandler = errorhand;
 	init = true;
-	screenbuffer =
+	screenbuffer = new Array(64);
+	for (let i = 0; i < 64; i++)
+		screenbuffer[i] = new Array(32);
 }
 
-//Load a program. Takes a base64 string
-function loadProgram(program) {
-	program =
+//Load a program. Takes a hex string
+function loadProgram(programStr) {
+	program = new Array(0);
+	for (let i = 0; i < programStr.length / 6; i++) {
+		//Convert the hex code to the program
+		//Anything at the end of it must be padded by zeroes
+		program.push(parseInt(programStr.substr(i * 6, 6), 16));
+	}
+	resetComputer();
 }
 
 //Resets the computer to the default state
-function resetcomputer() {
+function resetComputer() {
 
 }
